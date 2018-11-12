@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:hint="@string/edit_text_hint"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginStart="8dp"/>
 
         <Button
                 android:layout_width="0dp"
@@ -46,13 +46,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/user2"/>
-
         </RadioGroup>
 
     </LinearLayout>
     <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray">
     </View>
 
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/messages_recycler">
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
