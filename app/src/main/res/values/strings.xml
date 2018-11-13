@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Chatter</string>
+    <string name="edit_text_hint">Enter text message</string>
+    <string name="ok_button_text">OK</string>
 </resources>
