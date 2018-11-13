@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#FAEBD7"
         tools:context=".MainActivity">
 
     <LinearLayout
@@ -54,10 +55,14 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray">
     </View>
-
+    <include layout="@layout/user_message_count"/>
     <android.support.v7.widget.RecyclerView
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/messages_recycler">
+            android:id="@+id/messages_recycler"
+            tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/first_user_message"
+    >
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
