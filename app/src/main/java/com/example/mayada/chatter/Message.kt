@@ -1,10 +1,10 @@
 package com.example.mayada.chatter
 
-class Message {
-    var user: Int = 0
-    var text: String = ""
-        get() = field
-        set(value) {
-            field = value
-        }
+class Message(private val user: Int, private var text: String){
+    var messageText: String
+        get() = this.text
+        set(value: String){this.text=value}
+
+    val messageUser: Int
+        get() = this.user
 }
