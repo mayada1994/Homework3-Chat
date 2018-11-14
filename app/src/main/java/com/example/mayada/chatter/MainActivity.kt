@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
         messages_recycler_view.layoutManager = LinearLayoutManager(this)
         messages_recycler_view.adapter = messageAdapter
         buttonOK.setOnClickListener {
-            radio_group.checkedRadioButtonId
             val currentText = edit_message.text.toString()
             val currentUser = when (radio_group.checkedRadioButtonId) {
                 R.id.user1Select -> 1

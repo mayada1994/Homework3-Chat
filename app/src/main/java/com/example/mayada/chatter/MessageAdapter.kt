@@ -45,13 +45,11 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
 
     fun postMessage(message: Message) {
         messages.add(message)
-        notifyDataSetChanged()
+        notifyItemInserted(messages.size)
     }
-
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val messageText = itemView.findViewById<TextView>(R.id.message_text)
     }
-
 }
 
