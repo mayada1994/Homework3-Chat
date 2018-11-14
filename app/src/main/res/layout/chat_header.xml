@@ -10,6 +10,7 @@
             android:layout_weight="1"
             android:background="@color/first_user_massage_hue"
             android:gravity="center"
+            android:textSize="16sp"
             android:id="@+id/first_user_count"
             tools:text="User1: 3"/>
     <TextView
@@ -18,6 +19,7 @@
             android:layout_weight="1"
             android:background="@color/second_user_massage_hue"
             android:gravity="center"
+            android:textSize="16sp"
             android:id="@+id/second_user_count"
             tools:text="User2: 5"/>
 </LinearLayout>

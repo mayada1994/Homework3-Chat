@@ -1,13 +1,14 @@
 package com.example.mayada.chatter
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
 class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
-    var pos:Int = 0
+
     companion object {
         const val TYPE_FIRST_USER = 1
         const val TYPE_SECOND_USER = 2
@@ -15,10 +16,10 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutResource: Int
-        if (viewType == TYPE_FIRST_USER) {
-            layoutResource = R.layout.first_user_message
-        } else {
-            layoutResource = R.layout.second_user_message
+        when (viewType) {
+
+            TYPE_FIRST_USER -> layoutResource = R.layout.first_user_message
+            else -> layoutResource = R.layout.second_user_message
         }
 
         val view: View = LayoutInflater.from(viewGroup.context).inflate(layoutResource, viewGroup, false)
@@ -26,13 +27,12 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        var message: Message = messages[pos]
-        pos++
-        viewHolder.messageText.text = message.messageText
+        viewHolder.messageText.text = messages[position].messageText
+        Log.i("T E S T I N G", "Items: ${messages.size}")
     }
 
     override fun getItemViewType(position: Int): Int {
-        val type = when (messages[pos].messageUser) {
+        val type = when (messages[position].messageUser) {
             1 -> TYPE_FIRST_USER
             else -> TYPE_SECOND_USER
         }
@@ -45,11 +45,11 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
 
     fun postMessage(message: Message) {
         messages.add(message)
-        notifyItemInserted(messages.size)
+        this.notifyItemInserted(messages.size - 1)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val messageText = itemView.findViewById<TextView>(R.id.message_text)
+        var messageText: TextView = itemView.findViewById(R.id.message_text)
     }
 }
 
