@@ -1,9 +1,12 @@
 package com.example.mayada.chatter
 
+import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.chat_header.*
 import kotlinx.android.synthetic.main.first_user_message.*
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         HeaderInfo()
         messages_recycler_view.layoutManager = LinearLayoutManager(this)
         messages_recycler_view.adapter = messageAdapter
+        messages_recycler_view.addItemDecoration(MarginItemDecoration(12))
         buttonOK.setOnClickListener {
             val currentText = edit_message.text.toString()
             val currentUser = when (radio_group.checkedRadioButtonId) {
@@ -44,5 +48,19 @@ class MainActivity : AppCompatActivity() {
         var user2Display: String = resources.getString(R.string.user_2) + ": " + user2AmountOfMessages.toString()
         first_user_count.text = user1Display
         second_user_count.text = user2Display
+    }
+
+    class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View,
+                                    parent: RecyclerView, state: RecyclerView.State) {
+            with(outRect) {
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    top = spaceHeight
+                }
+                left =  spaceHeight
+                right = spaceHeight
+                bottom = spaceHeight
+            }
+        }
     }
 }
