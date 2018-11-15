@@ -25,7 +25,7 @@
         <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:id="@+id/buttonOK"
                 android:text="@string/ok_button_text"
                 android:layout_marginLeft="8dp"
@@ -79,13 +79,13 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
         </android.support.constraint.ConstraintLayout>
 
-
     </LinearLayout>
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray">
     </View>
+
     <include layout="@layout/chat_header"/>
 
     <android.support.v7.widget.RecyclerView
@@ -94,6 +94,4 @@
             android:layout_height="match_parent"
             android:id="@+id/messages_recycler_view">
     </android.support.v7.widget.RecyclerView>
-
-
 </LinearLayout>

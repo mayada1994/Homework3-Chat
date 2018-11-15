@@ -1,10 +1,14 @@
 package com.example.mayada.chatter
 
+import android.content.Context
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
+import android.text.InputType
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 
 class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
@@ -28,7 +32,18 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.messageText.text = messages[position].messageText
-        Log.i("T E S T I N G", "Items: ${messages.size}")
+
+        val clickListener = View.OnLongClickListener { view ->
+            when (view.id) {
+                R.id.message_text -> {
+                    viewHolder.showPopup(view)
+                    return@OnLongClickListener true
+                }
+                else -> throw ExceptionInInitializerError()
+            }
+        }
+
+        viewHolder.messageText.setOnLongClickListener(clickListener)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -49,7 +64,70 @@ class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<Me
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         var messageText: TextView = itemView.findViewById(R.id.message_text)
+        var editText: TextView = itemView.findViewById(R.id.edit_current_text)
+        lateinit var currentContext: Context
+        fun showPopup(view: View) {
+            currentContext = view.context
+            var popup: PopupMenu? = null;
+            popup = PopupMenu(view.context, view)
+            popup.inflate(R.menu.message_menu)
+
+            popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+                when (item!!.itemId) {
+                    R.id.menu_edit -> {
+                        editItem(adapterPosition, view)
+                        popup.setOnMenuItemClickListener { true }
+                    }
+                    R.id.menu_delete -> {
+                        messages.removeAt(adapterPosition)
+                        notifyItemRemoved(adapterPosition)
+                    }
+                    R.id.menu_cancel -> {
+                        popup.setOnMenuItemClickListener { false }
+                    }
+                }
+
+                true
+            })
+
+            popup.show()
+        }
+
+        fun editItem(position: Int, view: View?) {
+            if (view != null) {
+                messageText.visibility = View.GONE
+                editText.text = messageText.text.toString()
+                editText.visibility = View.VISIBLE
+                editText.requestFocus()
+                showKeyboard()
+                editText.imeOptions = EditorInfo.IME_ACTION_DONE
+                editText.setRawInputType(InputType.TYPE_CLASS_TEXT)
+                editText.setOnEditorActionListener { view, actionId, event ->
+                    return@setOnEditorActionListener when (actionId) {
+                        EditorInfo.IME_ACTION_DONE -> {
+                            messageText.text = editText.text
+                            editText.visibility = View.GONE
+                            messageText.visibility = View.VISIBLE
+                            messages[adapterPosition].messageText = messageText.text.toString()
+                            editText.text = ""
+                            notifyItemChanged(adapterPosition)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+
+        private fun showKeyboard() {
+            editText.postDelayed({
+                val keyboard = currentContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                keyboard!!.showSoftInput(editText, 0)
+            }, 100)
+        }
     }
 }
 
